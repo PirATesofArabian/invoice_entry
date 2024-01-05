@@ -41,7 +41,7 @@ PRODUCTS = [
 ]
 
 # Establishing a Google Sheets connection
-conn = st.connection("gsheets", type=GSheetsConnection)
+conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
 # Fetch existing vendors data
 existing_data = conn.read(worksheet="Sheet1", usecols=list(range(6)), ttl=5)
@@ -52,7 +52,7 @@ action = st.selectbox(
     [
         "Enter invoice Entry",
         "Update Existing Vendor",
-        "View All Vendors",
+        "View Vendor Data",
         "Delete Vendor Invoice",
     ],
 )
@@ -157,7 +157,7 @@ elif action == "Update Existing Vendor":
                 st.success("Vendor details successfully updated!")
 
 # View All Vendors
-elif action == "View All Vendors":
+elif action == "View Vendor Data":
     df=pd.DataFrame(existing_data)
     filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
     dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
@@ -209,6 +209,7 @@ elif action == "View All Vendors":
             Balance_Amount=round(Total_Amount-Total_paid)
             st.write("**:orange[Showing Results based on vendor and Date filter]**")
         st.write(filter_df)
+        # st.line_chart(df,x=df["InvoiceDate"].filter(),y=df["Amount"])
     st.write(f"Total Invoice Amount is: {Total_Amount} RS")
     st.write(f"Total Amount Paid: {Total_paid} RS")
     st.write(f"Balance Amount: {Balance_Amount} RS")
