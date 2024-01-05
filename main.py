@@ -68,7 +68,7 @@ if action == "Enter invoice Entry":
         Amount = st.number_input('Enter the Amount',min_value=0.0)
         # AmountPaid=st.text_input("")
         AmountPaid= st.number_input("Enter amount paid",min_value=0.0)
-        additional_info = st.text_area(label="Additional Notes")
+        # additional_info = st.text_area(label="Additional Notes")
 
         st.markdown("**required*")
         submit_button = st.form_submit_button(label="Submit Vendor Details")
