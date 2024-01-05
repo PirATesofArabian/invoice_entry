@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
+from streamlit_dynamic_filters import DynamicFilters
 
 # Display Title and Description
 st.title("Vendor Management Portal")
@@ -60,11 +61,13 @@ if action == "Enter invoice Entry":
     st.markdown("Enter the details of the new vendor below.")
     with st.form(key="vendor_form"):
         invoice_number = st.text_input(label="InvoiceNumber")
-        vendor_name = st.multiselect("Select the vendor",options=VENDORS)
+        vendor_name = st.selectbox("Select the vendor",options=VENDORS)
        # products = st.multiselect("Products Offered", options=PRODUCTS)
         #Amount = st.slider("Years in Business", 0, 50, 5)
         invoice_date = st.date_input(label="invoice_date")
         Amount = st.number_input('Enter the Amount')
+        # AmountPaid=st.text_input("")
+        AmountPaid= st.number_input("Enter amount paid")
         additional_info = st.text_area(label="Additional Notes")
 
         st.markdown("**required*")
@@ -73,8 +76,8 @@ if action == "Enter invoice Entry":
         if submit_button:
             if not invoice_number or not vendor_name:
                 st.warning("Ensure all mandatory fields are filled.")
-            elif existing_data["InvoiceNumber"].str.contains(invoice_number).any():
-                st.warning("A vendor with this company name already exists.")
+            elif existing_data["VendorName"].str.contains(vendor_name).any() and existing_data["InvoiceNumber"].astype(str).str.contains(invoice_number).any():
+                st.warning("A vendor with this invoice number already exists.")
             else:
                 vendor_data = pd.DataFrame(
                     [
@@ -84,6 +87,7 @@ if action == "Enter invoice Entry":
                            # "Products": ", ".join(products),
                             "Amount": Amount,
                             "InvoiceDate": invoice_date.strftime("%Y-%m-%d"),
+                            "AmountPaid": AmountPaid,
                             "AdditionalInfo": additional_info,
                         }
                     ]
@@ -106,11 +110,13 @@ elif action == "Update Existing Vendor":
         invoice_number = st.text_input(
             label="Invoice Number*", value=vendor_data["InvoiceNumber"]
         )
-        vendor_name = st.multiselect("Select the vendor",options=VENDORS)
+        vendor_name = st.selectbox("Select the vendor",options=VENDORS)
         Amount= st.number_input("Enter the Amount",int(vendor_data["Amount"]))
         invoice_date = st.date_input(
             label="Invoice Date", value=pd.to_datetime(vendor_data["InvoiceDate"])
+            
         )
+        AmountPaid= st.number_input("Enter amount paid")
         additional_info = st.text_area(
             label="Additional Notes", value=vendor_data["AdditionalInfo"]
         )
@@ -138,6 +144,7 @@ elif action == "Update Existing Vendor":
                            # "Products": ", ".join(products),
                             "Amount": Amount,
                             "InvoiceDate": invoice_date.strftime("%Y-%m-%d"),
+                            "AmountPaid": AmountPaid,
                             "AdditionalInfo": additional_info,
                         }
                     ]
@@ -151,7 +158,54 @@ elif action == "Update Existing Vendor":
 
 # View All Vendors
 elif action == "View All Vendors":
-    st.dataframe(existing_data)
+    df=pd.DataFrame(existing_data)
+    filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
+    dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
+    vendor_name = st.selectbox(
+        "Select a Vendor to filter", options=set(existing_data["VendorName"].tolist())
+    )
+    vendor_data = existing_data[existing_data["VendorName"] == vendor_name].iloc[
+        0
+    ]
+    invoice_date = st.date_input(
+            label="Invoice Date", value=pd.to_datetime(vendor_data["InvoiceDate"]))
+    checkbox=st.checkbox(label="Tick if you want to search by both vendor name and date")
+
+    # vendor_name = st.selectbox("Select the vendor",options=VENDORS)
+    # dynamic_filters.display_df()
+    
+    full_data=st.checkbox(label="Tick if you want to see data for all vendors")
+    if full_data:
+        Total_Amount=df["Amount"].sum()
+        Total_paid=df["AmountPaid"].sum()
+        Balance_Amount=round(Total_Amount-Total_paid)
+        st.write(df)
+    else:
+        if not checkbox:
+            filter_df=df[(df['VendorName']==f"{vendor_name}")]
+            Total_Amount=filter_df["Amount"].sum()
+            Total_paid=filter_df["AmountPaid"].sum()
+            Balance_Amount=Total_Amount-Total_paid
+        if checkbox:
+            filter_df=df[(df['VendorName']==f"{vendor_name}") & df['InvoiceDate']==invoice_date]
+            print(type(df['InvoiceDate']))
+            print(type(invoice_date))
+            print(vendor_name)
+            print(filter_df)
+            Total_Amount=filter_df["Amount"].sum()
+            Total_paid=filter_df["AmountPaid"].sum()
+            Balance_Amount=round(Total_Amount-Total_paid)
+        st.write(filter_df)
+    if Balance_Amount<0:
+        st.write(f"Total Amount is: {Total_Amount} RS")
+        st.write(f"Total Amount Paid: {Total_paid} RS")
+        st.write("Balance_Amount: 0 RS")
+    else:
+        st.write(f"Total Amount is: {Total_Amount} RS")
+        st.write(f"Total Amount Paid: {Total_paid} RS")
+        st.write(f"Balance Amount: {Balance_Amount} RS")
+    # st.button(st.experimental_rerun())
+    # st.dataframe(existing_data)
 
 # Delete Vendor
 elif action == "Delete Vendor":
