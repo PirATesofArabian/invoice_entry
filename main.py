@@ -10,7 +10,7 @@ st.title("Vendor Management Portal")
 VENDORS = [
     "JHADE AUTO SPARES",
     "DIAMOND AUTO PARTS",
-    "VIKAS TRADE LINKS",
+    "VIKAS TRADE LINKS PVT LTD",
     "RK AUTO MOBILES",
     "MUBIES",
     "COOLAID",
