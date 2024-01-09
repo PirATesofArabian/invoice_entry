@@ -120,7 +120,7 @@ elif action == "Update Existing Vendor":
             
         )
         AmountPaid= st.number_input("Enter amount paid")
-        UpdatePaymentDate= st.text("Enter the date on payment")
+        UpdatePaymentDate= st.text_input("Enter the date on payment")
         # additional_info = st.text_area(
         #     label="Additional Notes", value=vendor_data["AdditionalInfo"]
         # )
