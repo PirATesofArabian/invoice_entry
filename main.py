@@ -72,6 +72,7 @@ if action == "Enter invoice Entry":
         # AmountPaid=st.text_input("")
         AmountPaid= st.number_input("Enter amount paid",min_value=0.0)
         # additional_info = st.text_area(label="Additional Notes")
+        UpdatePaymentDate= st.text_input("Enter the date on payment")
 
         st.markdown("**required*")
         submit_button = st.form_submit_button(label="Submit Vendor Details")
@@ -91,6 +92,7 @@ if action == "Enter invoice Entry":
                             "Amount": Amount,
                             "InvoiceDate": invoice_date.strftime("%Y-%m-%d"),
                             "AmountPaid": AmountPaid,
+                            "UpdatePaymentDate":UpdatePaymentDate
                             # "AdditionalInfo": additional_info,
                         }
                     ]
