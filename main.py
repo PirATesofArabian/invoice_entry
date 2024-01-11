@@ -114,6 +114,9 @@ elif action == "Update Existing Vendor":
             label="Invoice Number*", value=vendor_data["InvoiceNumber"]
         )
         vendor_name = st.text_input("Select the vendor",value=vendor_data["VendorName"])
+        option=st.checkbox("want to update vendor name?")
+        if option:
+            vendor_update=st.selectbox("Select the vendor to update",options=VENDORS)
         Amount= st.number_input("Enter the Amount",int(vendor_data["Amount"]))
         invoice_date = st.date_input(
             label="Invoice Date", value=pd.to_datetime(vendor_data["InvoiceDate"])
@@ -140,11 +143,12 @@ elif action == "Update Existing Vendor":
                     inplace=True,
                 )
                 # Creating updated data entry
-                updated_vendor_data = pd.DataFrame(
+                if option:
+                    updated_vendor_data = pd.DataFrame(
                     [
                         {
                             "InvoiceNumber": invoice_number,
-                            "VendorName": vendor_name,
+                            "VendorName": vendor_update,
                            # "Products": ", ".join(products),
                             "Amount": Amount,
                             "InvoiceDate": invoice_date.strftime("%Y-%m-%d"),
@@ -154,10 +158,25 @@ elif action == "Update Existing Vendor":
                         }
                     ]
                 )
-                # Adding updated data to the dataframe
-                updated_df = pd.concat(
-                    [existing_data, updated_vendor_data], ignore_index=True
-                )
+                else:
+                    updated_vendor_data = pd.DataFrame(
+                        [
+                            {
+                                "InvoiceNumber": invoice_number,
+                                "VendorName": vendor_name,
+                            # "Products": ", ".join(products),
+                                "Amount": Amount,
+                                "InvoiceDate": invoice_date.strftime("%Y-%m-%d"),
+                                "AmountPaid": AmountPaid,
+                                "UpdatePaymentDate": UpdatePaymentDate,
+                                # "AdditionalInfo": additional_info,
+                            }
+                        ]
+                    )
+                    # Adding updated data to the dataframe
+                    updated_df = pd.concat(
+                        [existing_data, updated_vendor_data], ignore_index=True
+                    )
                 conn.update(worksheet="Sheet1", data=updated_df)
                 st.success("Vendor details successfully updated!")
 
