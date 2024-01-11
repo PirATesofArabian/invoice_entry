@@ -74,7 +74,7 @@ if action == "Enter invoice Entry":
         # additional_info = st.text_area(label="Additional Notes")
         UpdatePaymentDate= st.text_input("Enter the date of payment")
 
-        st.markdown("**required*")
+        # st.markdown("**required*")
         submit_button = st.form_submit_button(label="Submit Vendor Details")
 
         if submit_button:
