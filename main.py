@@ -113,7 +113,7 @@ elif action == "Update Existing Vendor":
         invoice_number = st.text_input(
             label="Invoice Number*", value=vendor_data["InvoiceNumber"]
         )
-        vendor_name = st.selectbox("Select the vendor",options=VENDORS,value=vendor_data["VendorName"])
+        vendor_name = st.text_input("Select the vendor",options=VENDORS,value=vendor_data["VendorName"])
         Amount= st.number_input("Enter the Amount",int(vendor_data["Amount"]))
         invoice_date = st.date_input(
             label="Invoice Date", value=pd.to_datetime(vendor_data["InvoiceDate"])
