@@ -115,7 +115,7 @@ elif action == "Update Existing Vendor":
         invoice_number = st.text_input(
             label="Invoice Number*", value=vendor_data["InvoiceNumber"]
         )
-        vendor_name = st.text_input("Select the vendor",value=vendor_data["VendorName"])
+        vendor_name = st.text_input("Vendor is",value=vendor_data["VendorName"])
         option=st.checkbox("want to update vendor name?")
         # if option:
         vendor_update=st.selectbox("Select the vendor to update",options=VENDORS)
