@@ -174,9 +174,9 @@ elif action == "Update Existing Vendor":
                         ]
                     )
                     # Adding updated data to the dataframe
-                    updated_df = pd.concat(
-                        [existing_data, updated_vendor_data], ignore_index=True
-                    )
+                updated_df = pd.concat(
+                    [existing_data, updated_vendor_data], ignore_index=True
+                )
                 conn.update(worksheet="Sheet1", data=updated_df)
                 st.success("Vendor details successfully updated!")
 
