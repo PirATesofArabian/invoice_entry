@@ -4,7 +4,7 @@ import pandas as pd
 from streamlit_dynamic_filters import DynamicFilters
 
 # Display Title and Description
-st.title("Vendor Management Portal")
+st.title("Pragathi Motors Vendor Invoice Portal")
 
 # Constants
 VENDORS = [
