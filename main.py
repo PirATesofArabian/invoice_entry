@@ -72,7 +72,7 @@ if action == "Enter invoice Entry":
         # AmountPaid=st.text_input("")
         AmountPaid= st.number_input("Enter amount paid",min_value=0.0)
         # additional_info = st.text_area(label="Additional Notes")
-        UpdatePaymentDate= st.text_input("Enter the date on payment")
+        UpdatePaymentDate= st.text_input("Enter the date of payment")
 
         st.markdown("**required*")
         submit_button = st.form_submit_button(label="Submit Vendor Details")
@@ -125,7 +125,7 @@ elif action == "Update Existing Vendor":
             
         )
         AmountPaid= st.number_input("Enter amount paid",int(vendor_data["AmountPaid"]))
-        UpdatePaymentDate= st.text_input("Enter the date on payment",value=vendor_data["UpdatePaymentDate"])
+        UpdatePaymentDate= st.text_input("Enter the date of payment",value=vendor_data["UpdatePaymentDate"])
         # additional_info = st.text_area(
         #     label="Additional Notes", value=vendor_data["AdditionalInfo"]
         # )
