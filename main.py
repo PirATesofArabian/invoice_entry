@@ -222,14 +222,14 @@ elif action == "View Vendor Data":
                 Total_Amount=filter_df["Amount"].sum()
                 Total_paid=filter_df["AmountPaid"].sum()
                 Balance_Amount=round(Total_Amount-Total_paid)
-                st.write("**:red[Showing Results based on Date filter]**")
+                st.write(f"**:red[Showing Results based on Date filter for {vendor_name}]**")
                 # pass
             else:
                 filter_df=df[(df['VendorName']==f"{vendor_name}")]
                 Total_Amount=filter_df["Amount"].sum()
                 Total_paid=filter_df["AmountPaid"].sum()
                 Balance_Amount=Total_Amount-Total_paid
-                st.write(f"**:green[Showing results based on Vendor filter] for {vendor_name}**")
+                st.write(f"**:green[Showing results based on Vendor filter for {vendor_name}]**")
         elif checkbox:
             filter_df=df[(df['VendorName']==f"{vendor_name}") & (df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
             print()
@@ -239,7 +239,7 @@ elif action == "View Vendor Data":
             Total_Amount=filter_df["Amount"].sum()
             Total_paid=filter_df["AmountPaid"].sum()
             Balance_Amount=round(Total_Amount-Total_paid)
-            st.write("**:orange[Showing Results based on vendor and Date filter]**")
+            st.write(f"**:orange[Showing Results based on vendor and Date filter for {vendor_name}] **")
         st.write(filter_df)
         # st.line_chart(df,x=df["InvoiceDate"].filter(),y=df["Amount"])
     st.write(f"Total Invoice Amount is: {Total_Amount} RS")
