@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 from streamlit_dynamic_filters import DynamicFilters
-
+from datetime import datetime as dt
 # Display Title and Description
 st.title("Pragathi Motors Vendor Invoice Portal")
 
@@ -188,9 +188,11 @@ elif action == "View Vendor Data":
     existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(int)
     existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str)
     df=pd.DataFrame(existing_data)
-    print(df)
+    if dt.min%5==0:
+        print(df)
+    # print(df)
     # df["InvoiceNumber"]=df["InvoiceNumber"].to_string()
-    print(type(df['InvoiceNumber'][0]))
+    # print(type(df['InvoiceNumber'][0]))
     filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
     dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
     vendor_name = st.selectbox(
