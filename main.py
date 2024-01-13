@@ -185,8 +185,7 @@ elif action == "Update Existing Vendor":
 
 # View All Vendors
 elif action == "View Vendor Data":
-    existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str)
-    existing_data["InvoiceNumber"]= existing_data["InvoiceNumber"][:-2]  
+    existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str) 
     df=pd.DataFrame(existing_data)
     filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
     dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
