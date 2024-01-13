@@ -185,10 +185,12 @@ elif action == "Update Existing Vendor":
 
 # View All Vendors
 elif action == "View Vendor Data":
-    existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str) 
+    existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(int)
+    existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str)
     df=pd.DataFrame(existing_data)
-    df["InvoiceNumber"]=df["InvoiceNumber"].astype(str)
-    print(type(df['InvoiceNumber']))
+    print(df)
+    # df["InvoiceNumber"]=df["InvoiceNumber"].to_string()
+    print(type(df['InvoiceNumber'][0]))
     filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
     dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
     vendor_name = st.selectbox(
@@ -214,7 +216,7 @@ elif action == "View Vendor Data":
     else:
         if not checkbox:
             if date_checkbox:
-                print(df['InvoiceDate'].to_string()[5:])
+                # print(df['InvoiceDate'].to_string()[5:])
                 print("")
                 filter_df=df[(df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
                 Total_Amount=filter_df["Amount"].sum()
