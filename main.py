@@ -251,7 +251,7 @@ elif action == "View Vendor Data":
                 Total_paid=filter_df["AmountPaid"].sum()
                 Balance_Amount=round(Total_Amount-Total_paid)
                 st.write(f"**:orange[Showing Results based on vendor and Date filter for {vendor_name}]**")
-            st.write(filter_df)
+            st.write(filter_df.sort_values(by=['InvoiceDate']))
             # st.line_chart(df,x=df["InvoiceDate"].filter(),y=df["Amount"])
         if not full_data:
             st.write(f"Total Invoice Amount for {vendor_name} is: {Total_Amount} RS")
