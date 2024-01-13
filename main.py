@@ -229,7 +229,7 @@ elif action == "View Vendor Data":
                 Total_Amount=filter_df["Amount"].sum()
                 Total_paid=filter_df["AmountPaid"].sum()
                 Balance_Amount=Total_Amount-Total_paid
-                st.write("**:green[Showing results based on Vendor filter]**")
+                st.write(f"**:green[Showing results based on Vendor filter] for {vendor_name}**")
         elif checkbox:
             filter_df=df[(df['VendorName']==f"{vendor_name}") & (df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
             print()
