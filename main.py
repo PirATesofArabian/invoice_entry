@@ -36,13 +36,6 @@ VENDORS = [
     "RK AUTOMOBILES",
     "SWETADRI ASSOCIATES"
 ]
-PRODUCTS = [
-    "Electronics",
-    "Apparel",
-    "Groceries",
-    "Software",
-    "Other",
-]
 
 # Establishing a Google Sheets connection
 conn = st.connection("gsheets", type=GSheetsConnection)
@@ -207,44 +200,67 @@ elif action == "View Vendor Data":
     # dynamic_filters.display_df()
     
     full_data=st.checkbox(label="Tick if you want to see data for all vendors")
-    if full_data:
+    view_between_dates= st.checkbox(label="Tick this box to see details between start and end date")
+    if view_between_dates:
+        start=st.date_input(label="Enter the start date")
+        end=st.date_input(label="Enter the end date")
+        mask=(df['InvoiceDate']>str(start)) & (df['InvoiceDate']<str(end)) & (df['VendorName'].str.contains(vendor_name))
+        # print(mask)
+        df=df.loc[mask]
+        # print(df)
+        st.write(f"**:yellow[Showing results between {start} and {end} for {vendor_name}]**")
+        st.write(df.sort_values(by=['InvoiceDate']))
         Total_Amount=df["Amount"].sum()
         Total_paid=df["AmountPaid"].sum()
         Balance_Amount=round(Total_Amount-Total_paid)
-        st.write("**:red[Showing Data for all Vendors]**")
-        st.write(df)
+        st.write(f"Total Invoice Amount for {vendor_name} is: {Total_Amount} RS")
+        st.write(f"Total Amount Paid for {vendor_name}: {Total_paid} RS")
+        st.write(f"Balance Amount for {vendor_name}: {Balance_Amount} RS")
+        # df=filter_df
     else:
-        if not checkbox:
-            if date_checkbox:
-                # print(df['InvoiceDate'].to_string()[5:])
-                print("")
-                filter_df=df[(df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
+        if full_data:
+            Total_Amount=df["Amount"].sum()
+            Total_paid=df["AmountPaid"].sum()
+            Balance_Amount=round(Total_Amount-Total_paid)
+            st.write("**:red[Showing Data for all Vendors]**")
+            st.write(df)
+        else:
+            if not checkbox:
+                if date_checkbox:
+                    # print(df['InvoiceDate'].to_string()[5:])
+                    print("")
+                    filter_df=df[(df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
+                    Total_Amount=filter_df["Amount"].sum()
+                    Total_paid=filter_df["AmountPaid"].sum()
+                    Balance_Amount=round(Total_Amount-Total_paid)
+                    st.write(f"**:red[Showing Results based on Date filter for {vendor_name}]**")
+                    # pass
+                else:
+                    filter_df=df[(df['VendorName']==f"{vendor_name}")]
+                    Total_Amount=filter_df["Amount"].sum()
+                    Total_paid=filter_df["AmountPaid"].sum()
+                    Balance_Amount=Total_Amount-Total_paid
+                    st.write(f"**:green[Showing results based on Vendor filter for {vendor_name}]**")
+            elif checkbox:
+                filter_df=df[(df['VendorName']==f"{vendor_name}") & (df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
+                print()
+                print(df['InvoiceDate'][0])
+                print(invoice_date.strftime("%Y-%m-%d"))
+                print(df['VendorName'])
                 Total_Amount=filter_df["Amount"].sum()
                 Total_paid=filter_df["AmountPaid"].sum()
                 Balance_Amount=round(Total_Amount-Total_paid)
-                st.write(f"**:red[Showing Results based on Date filter for {vendor_name}]**")
-                # pass
-            else:
-                filter_df=df[(df['VendorName']==f"{vendor_name}")]
-                Total_Amount=filter_df["Amount"].sum()
-                Total_paid=filter_df["AmountPaid"].sum()
-                Balance_Amount=Total_Amount-Total_paid
-                st.write(f"**:green[Showing results based on Vendor filter for {vendor_name}]**")
-        elif checkbox:
-            filter_df=df[(df['VendorName']==f"{vendor_name}") & (df['InvoiceDate'].str.contains(invoice_date.strftime("%Y-%m-%d")))]
-            print()
-            print(df['InvoiceDate'][0])
-            print(invoice_date.strftime("%Y-%m-%d"))
-            print(df['VendorName'])
-            Total_Amount=filter_df["Amount"].sum()
-            Total_paid=filter_df["AmountPaid"].sum()
-            Balance_Amount=round(Total_Amount-Total_paid)
-            st.write(f"**:orange[Showing Results based on vendor and Date filter for {vendor_name}] **")
-        st.write(filter_df)
-        # st.line_chart(df,x=df["InvoiceDate"].filter(),y=df["Amount"])
-    st.write(f"Total Invoice Amount is: {Total_Amount} RS")
-    st.write(f"Total Amount Paid: {Total_paid} RS")
-    st.write(f"Balance Amount: {Balance_Amount} RS")
+                st.write(f"**:orange[Showing Results based on vendor and Date filter for {vendor_name}]**")
+            st.write(filter_df)
+            # st.line_chart(df,x=df["InvoiceDate"].filter(),y=df["Amount"])
+        if not full_data:
+            st.write(f"Total Invoice Amount for {vendor_name} is: {Total_Amount} RS")
+            st.write(f"Total Amount Paid for {vendor_name}: {Total_paid} RS")
+            st.write(f"Balance Amount for {vendor_name}: {Balance_Amount} RS")
+        else:
+            st.write(f"Total Invoice Amount is: {Total_Amount} RS")
+            st.write(f"Total Amount Paid: {Total_paid} RS")
+            st.write(f"Balance Amount: {Balance_Amount} RS")
     # else:
     #     st.write(f"Total Invoice Amount is: {Total_Amount} RS")
     #     st.write(f"Total Amount Paid: {Total_paid} RS")
