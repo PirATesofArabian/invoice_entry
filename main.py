@@ -188,6 +188,7 @@ elif action == "View Vendor Data":
     existing_data["InvoiceNumber"]=existing_data["InvoiceNumber"].astype(str) 
     df=pd.DataFrame(existing_data)
     df["InvoiceNumber"]=df["InvoiceNumber"].astype(str)
+    print(type(df['InvoiceNumber']))
     filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"]
     dynamic_filters = DynamicFilters(df,filters=["InvoiceNumber","VendorName","Amount","InvoiceDate","AmountPaid"])
     vendor_name = st.selectbox(
