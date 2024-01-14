@@ -2,7 +2,7 @@ import cv2
 from pyzbar.pyzbar import decode
 import time
 import pandas as pd
-# import streamlit as st
+import streamlit as st
 
 
 cap = cv2.VideoCapture (0)
@@ -12,8 +12,9 @@ used_codes = []
 df=pd.DataFrame(columns=['Barcode','IN/OUT'])
 print(df)
 camera = True
-# button=st.button(label="Click to enter the data")
-while camera == True:
+button=st.button(label="Click to enter the data")
+# while camera == True:
+if button:
     success, frame = cap.read()
     for code in decode (frame):
         if code.data.decode('utf-8') not in used_codes:
@@ -30,4 +31,4 @@ while camera == True:
     print(df)
     cv2.imshow ('Testing-code-scan', frame)
     cv2.waitKey (1)
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
