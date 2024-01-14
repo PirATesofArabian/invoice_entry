@@ -2,5 +2,9 @@ streamlit
 st-gsheets-connection
 streamlit_dynamic_filters
 pyzbar
-# opencv-python
+opencv-python
 opencv-python-headless==4.5.3.56
+ffmpeg 
+libsm6 
+libxext6
+libgl1
