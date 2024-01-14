@@ -1,3 +1,5 @@
 streamlit
 st-gsheets-connection
 streamlit_dynamic_filters
+pyzbar
+opencv-python
