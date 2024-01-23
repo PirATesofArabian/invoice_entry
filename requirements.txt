@@ -4,5 +4,4 @@ streamlit_dynamic_filters
 pyzbar
 gspread
 google-auth
-opencv-python
-opencv-python-headless==4.5.3.56
+opencv-python==4.5.5.64
