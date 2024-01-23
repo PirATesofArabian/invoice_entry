@@ -2,6 +2,7 @@ streamlit
 st-gsheets-connection
 streamlit_dynamic_filters
 pyzbar
+zbar
 gspread
 google-auth
 opencv-python
