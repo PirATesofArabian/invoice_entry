@@ -1,13 +1,10 @@
 import cv2
+from google.oauth2.service_account import Credentials
+import pandas as pd
 import gspread
 import time
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.camera import Camera
-from pyzbar.pyzbar import decodez
-from google.oauth2.service_account import Credentials
+from pyzbar.pyzbar import decode
+from oauth2client.service_account import ServiceAccountCredentials
 
 def scan_barcode():
     cap = cv2.VideoCapture(0)
