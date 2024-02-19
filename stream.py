@@ -6,7 +6,6 @@ from google.oauth2.service_account import Credentials
 import pandas as pd
 import gspread
 import time
-from oauth2client.service_account import ServiceAccountCredentials
 
 
 st.title("Pragathi Batteries Management")
