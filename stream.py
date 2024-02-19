@@ -5,7 +5,6 @@ from streamlit_dynamic_filters import DynamicFilters
 from google.oauth2.service_account import Credentials
 import pandas as pd
 import gspread
-import cv2
 import time
 from pyzbar.pyzbar import decode
 from oauth2client.service_account import ServiceAccountCredentials
